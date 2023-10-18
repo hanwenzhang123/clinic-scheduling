@@ -10,12 +10,47 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_10_16_212014) do
+ActiveRecord::Schema[7.0].define(version: 2023_10_18_035231) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
+  create_table "consultations", force: :cascade do |t|
+    t.string "start_time"
+    t.string "end_time"
+    t.date "appointment_date"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "members", force: :cascade do |t|
+    t.string "first_name"
+    t.string "last_name"
+    t.string "email"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "messages", force: :cascade do |t|
     t.string "text", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "provider_availabilities", force: :cascade do |t|
+    t.integer "provider_id"
+    t.string "day_of_week"
+    t.string "shift_start_time"
+    t.string "shift_end_time"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["provider_id"], name: "index_provider_availabilities_on_provider_id"
+  end
+
+  create_table "providers", force: :cascade do |t|
+    t.string "first_name"
+    t.string "last_name"
+    t.string "speciality"
+    t.string "email"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
