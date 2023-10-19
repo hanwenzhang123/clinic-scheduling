@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchRandomGreeting } from '../redux/features/greetings/greetingsSlice';
+import { fetchRandomGreeting } from '../redux/features/greetingsSlice';
 
 function Greetings() {
   const dispatch = useDispatch();

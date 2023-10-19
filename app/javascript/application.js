@@ -6,11 +6,13 @@ import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import store from './redux/store'
 import Greetings from './components/Greetings';
+import Consultations from "./components/Consultations";
 
 
 ReactDOM.render(
   <Provider store={store}>
-  <Greetings/>
+    <Greetings />
+    <Consultations />
   </Provider>,
   document.getElementById('root'),
 );

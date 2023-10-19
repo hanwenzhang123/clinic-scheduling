@@ -108,5 +108,21 @@ bundle exec rails g migration AddProviderToProviderAvailability provider:referen
 ```
 
 ## Controller
+```sh
+bin/rails generate controller api::v1::ProvidersController
+bin/rails generate controller api::v1::MembersController
+bin/rails generate controller api::v1::ConsultationsController
+bin/rails generate controller Errors not_found
+```
 
 ## View
+
+## APIs
+```sh
+/api/v1/providers
+/api/v1/providers/{id}
+/api/v1/members
+/api/v1/members/{id}
+/api/v1/consultations
+/api/v1/consultations/{id}
+```
