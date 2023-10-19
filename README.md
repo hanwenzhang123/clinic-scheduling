@@ -95,9 +95,16 @@ bundle exec rails generate model Member
 bundle exec rails generate model Consultation
 bundle exec rails generate model ProviderAvailability
 bundle exec rails db:migrate
+```
+```sh
 bundle exec rails generate model Users
 rails generate migration RemoveEmailFromProvider
 rails generate migration RemoveEmailFromMember
+bundle exec rails generate migration AddUpcomingConsultationToMembers upcoming_consultation:integer
+bundle exec rails g migration AddUserIdToProviders user:references
+bundle exec rails g migration AddProviderIdToConsultations provider:references
+bundle exec rails g migration AddMemberIdToConsultations member:references
+bundle exec rails g migration AddProviderToProviderAvailability provider:references
 ```
 
 ## Controller
