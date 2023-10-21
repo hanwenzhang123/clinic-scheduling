@@ -41,9 +41,9 @@ Member.create!([
 ])
 
 Consultation.create!([
-  {id: 1, provider: Provider.find(1), member: Member.find(1), appointment_date: Date.parse("11/11/2023"), start_time: "9:00:00", end_time: "10:00:00"},
-  {id: 2, provider: Provider.find(2), member: Member.find(2), appointment_date: Date.parse("12/12/2023"), start_time: "10:00:00", end_time: "11:00:00"},
-  {id: 3, provider: Provider.find(3), member: Member.find(3), appointment_date: Date.parse("10/10/2023"), start_time: "11:00:00", end_time: "12:00:00"}
+  {id: 1, provider: Provider.find(1), member: Member.find(1), appointment_date: Date.parse("11/11/2023"), start_time: "9:00:00"},
+  {id: 2, provider: Provider.find(2), member: Member.find(2), appointment_date: Date.parse("12/12/2023"), start_time: "10:00:00"},
+  {id: 3, provider: Provider.find(3), member: Member.find(3), appointment_date: Date.parse("10/10/2023"), start_time: "11:00:00"}
 ])
 
 ProviderAvailability.create([

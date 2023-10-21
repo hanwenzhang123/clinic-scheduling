@@ -35,8 +35,8 @@ yarn start
 
 ### Database Related Setup
 ```sh
-psql -h /tmp/ clinic_scheduling
-clinic_scheduling=# CREATE ROLE admin LOGIN PASSWORD 'admin';
+psql -h /tmp/ clinic_scheduling_system
+clinic_scheduling_system=# CREATE ROLE admin LOGIN PASSWORD 'admin';
 ```
 
 ### Ruby Version 3.2.2
@@ -69,38 +69,49 @@ source ~/.zshrc
 - past_consultations
 
 ##### Consultation
-- consultation_id:PK
+- consultation_id: PK
 - provider_id: FK
 - member_id: FK
+- status
 - appointment_date
 - start_time
 - end_time
 
 ##### ProviderAvailability
-- provider_availability_id:PK
+- provider_availability_id: PK
 - provider_id: FK
 - day_of_week
 - shift_start_time
 - shift_end_time
 
+##### Message
+- message_id: PK
+- consultation_id: FK
+
 #### Create Data Model
 ```sh
-bundle exec rails generate migration CreateProvider
-bundle exec rails generate migration CreateMember
+bundle exec rails db:rollback
+bundle exec rails db:create
+bundle exec rails db:reset
+bundle exec rails db:migrate
+bundle exec rails db:seed
+```
+```sh
+bundle exec rails generate migration CreateProviders
+bundle exec rails generate migration CreateMembers
 bundle exec rails generate migration CreateConsultations
 bundle exec rails generate migration CreateProviderAvailabilities
-bundle exec rails db:rollback
+bundle exec rails generate migration CreateUsers
 bundle exec rails generate model Provider
 bundle exec rails generate model Member
 bundle exec rails generate model Consultation
 bundle exec rails generate model ProviderAvailability
-bundle exec rails db:migrate
+bundle exec rails generate model Users
 ```
 ```sh
-bundle exec rails generate model Users
 rails generate migration RemoveEmailFromProvider
 rails generate migration RemoveEmailFromMember
-bundle exec rails generate migration AddUpcomingConsultationToMembers upcoming_consultation:integer
+bundle exec rails g migration AddUpcomingConsultationToMembers upcoming_consultation_id:integer
 bundle exec rails g migration AddUserIdToProviders user:references
 bundle exec rails g migration AddProviderIdToConsultations provider:references
 bundle exec rails g migration AddMemberIdToConsultations member:references
@@ -125,4 +136,12 @@ bin/rails generate controller Errors not_found
 /api/v1/members/{id}
 /api/v1/consultations
 /api/v1/consultations/{id}
+/api/v1/consultations/create
+```
+
+## PostgreSQL Related Commands
+```sh
+psql -l   # list of datbase and owner of the database
+psql -h localhost -U hanwenzhang -d postgres -c "DROP DATABASE clinic_scheduling"
+psql -U hanwenzhang clinic_scheduling_system
 ```

@@ -13,7 +13,7 @@ Rails.application.routes.draw do
     namespace :v1 do
       resources :providers, only: [:index, :show]
       resources :members, only: [:index, :show]
-      resources :consultations, only: [:index, :show]
+      resources :consultations
     end
   end
 
