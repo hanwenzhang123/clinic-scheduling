@@ -25,12 +25,34 @@ class Api::V1::ConsultationsController < ApplicationController
     )
     
     if @consultation.save
-      render json: { notice: 'Consultation was successfully created' }
+      render json: { data: 'Consultation was successfully created' }
     else
       render status: :unprocessable_entity do |format|
         format.html { render 'errors/422' }
         format.json { render json: { error: 'There was an error while creating the model.' }, status: :unprocessable_entity }
       end
+    end
+  end
+
+  def consultation_cancelled
+    @consultation = Consultation.find(params[:id])
+
+    if @consultation.status != 'cancelled'
+      @consultation.update(status: 'cancelled')
+      render json: { data: 'Consultation was successfully cancelled' }
+    else
+      render json: { error: 'Consultation is already cancelled' }
+    end
+  end
+
+  def consultation_completed
+    @consultation = Consultation.find(params[:id])
+
+    if @consultation.status != 'completed'
+      @consultation.update(status: 'completed')
+      render json: { data: 'Consultation was successfully completed' }
+    else
+      render json: { error: 'Consultation is already completed' }
     end
   end
 

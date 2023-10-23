@@ -1,7 +1,6 @@
 class Consultation < ApplicationRecord
   before_create :generate_end_time_and_set_status
   after_create :associate_with_member_and_provider
-  before_destroy :set_status_to_cancelled
 
   belongs_to :member
   belongs_to :provider
@@ -32,10 +31,5 @@ class Consultation < ApplicationRecord
     
     self.save
     @member.save
-  end
-
-  def set_status_to_cancelled
-    self.status = 'cancelled'
-    self.save
   end
 end

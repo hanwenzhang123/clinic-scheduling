@@ -16,7 +16,12 @@ Rails.application.routes.draw do
     namespace :v1 do
       resources :providers, only: [:index, :show]
       resources :members, only: [:index, :show]
-      resources :consultations
+      resources :consultations do
+        member do
+          post 'consultation_cancelled'
+          post 'consultation_completed'
+        end
+      end
     end
   end
 

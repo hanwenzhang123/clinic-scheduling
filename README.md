@@ -48,8 +48,7 @@ echo 'export PATH="/opt/homebrew/opt/ruby@3.1/bin:$PATH"' >> ~/.zshrc
 source ~/.zshrc
 ```
 
-## Model
-### Tables
+## Database
 ##### User
 - user_id: PK
 - first_name
@@ -88,7 +87,24 @@ source ~/.zshrc
 - message_id: PK
 - consultation_id: FK
 
-#### Create Data Model
+## APIs
+```sh
+GET - /api/v1/providers
+GET - /api/v1/providers/:id
+GET - /api/v1/members
+GET - /api/v1/members/:id
+GET - /api/v1/consultations
+GET -/api/v1/consultations/:id
+POST - /api/v1/consultations
+DELETE -/api/v1/consultations/:id
+POST /api/v1/consultations/:id/consultation_cancelled
+POST /api/v1/consultations/:id/consultation_completed
+```
+
+## MVC
+
+#### Model
+##### Create Data Model
 ```sh
 bundle exec rails db:rollback
 bundle exec rails db:create
@@ -118,7 +134,7 @@ bundle exec rails g migration AddMemberIdToConsultations member:references
 bundle exec rails g migration AddProviderToProviderAvailability provider:references
 ```
 
-## Controller
+#### Controller
 ```sh
 bin/rails generate controller api::v1::ProvidersController
 bin/rails generate controller api::v1::MembersController
@@ -126,18 +142,8 @@ bin/rails generate controller api::v1::ConsultationsController
 bin/rails generate controller Errors not_found
 ```
 
-## View
-
-## APIs
+#### View
 ```sh
-GET - /api/v1/providers
-GET - /api/v1/providers/{id}
-GET - /api/v1/members
-GET - /api/v1/members/{id}
-GET - /api/v1/consultations
-GET -/api/v1/consultations/{id}
-POST - /api/v1/consultations
-DELETE -/api/v1/consultations/{id}
 ```
 
 ## Other Commands
