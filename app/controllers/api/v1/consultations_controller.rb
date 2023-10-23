@@ -39,6 +39,9 @@ class Api::V1::ConsultationsController < ApplicationController
 
     if @consultation.status != 'cancelled'
       @consultation.update(status: 'cancelled')
+      @consultation.member.upcoming_consultation = nil
+      @consultation.member.past_consultation_ids.push(params[:id])
+      @member.save
       render json: { data: 'Consultation was successfully cancelled' }
     else
       render json: { error: 'Consultation is already cancelled' }
@@ -50,6 +53,9 @@ class Api::V1::ConsultationsController < ApplicationController
 
     if @consultation.status != 'completed'
       @consultation.update(status: 'completed')
+      @consultation.member.upcoming_consultation = nil
+      @consultation.member.past_consultation_ids.push(params[:id])
+      @consultation.member.save
       render json: { data: 'Consultation was successfully completed' }
     else
       render json: { error: 'Consultation is already completed' }
