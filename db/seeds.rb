@@ -18,39 +18,31 @@ Consultation.destroy_all
 User.destroy_all
 
 User.create!([
-  {id: 1, first_name: "admin", last_name: "admin", email: "admin@example.com", password: "test123"}, 
-  {id: 2, first_name: "provider1", last_name: "provider1", email: "provider1@example.com", password: "test123"}, 
-  {id: 3, first_name: "provider2", last_name: "provider2", email: "provider2@example.com", password: "test123"}, 
-  {id: 4, first_name: "provider3", last_name: "provider3", email: "provider3@example.com", password: "test123"}, 
-  {id: 5, first_name: "member1", last_name: "member1", email: "member1@example.com", password: "test123"}, 
-  {id: 6, first_name: "member2", last_name: "member2", email: "member2@example.com", password: "test123"}, 
-  {id: 7, first_name: "member3", last_name: "member3", email: "member3@example.com", password: "test123"}
+  {first_name: "admin", last_name: "admin", email: "admin@example.com", password: "test123"}, 
+  {first_name: "provider1", last_name: "provider1", email: "provider1@example.com", password: "test123"}, 
+  {first_name: "provider2", last_name: "provider2", email: "provider2@example.com", password: "test123"}, 
+  {first_name: "provider3", last_name: "provider3", email: "provider3@example.com", password: "test123"}, 
+  {first_name: "member1", last_name: "member1", email: "member1@example.com", password: "test123"}, 
+  {first_name: "member2", last_name: "member2", email: "member2@example.com", password: "test123"}, 
+  {first_name: "member3", last_name: "member3", email: "member3@example.com", password: "test123"}
 ])
 
-Provider.create!([
-  {id: 1, user: User.find(2), speciality: "Physical Health"}, 
-  {id: 2, user: User.find(3), speciality: "Mental Health"}, 
-  {id: 3, user: User.find(4), speciality: "General Health"}
-])
-
-Member.create!([
-  {id: 1, user: User.find(5)}, 
-  {id: 2, user: User.find(6)}, 
-  {id: 3, user: User.find(7)}
-])
-
-Consultation.create!([
-  {id: 1, provider: Provider.find(1), member: Member.find(1), appointment_date: Date.parse("11/11/2023"), start_time: "9:00:00"},
-  {id: 2, provider: Provider.find(2), member: Member.find(2), appointment_date: Date.parse("12/12/2023"), start_time: "10:00:00"},
-  {id: 3, provider: Provider.find(3), member: Member.find(3), appointment_date: Date.parse("10/10/2023"), start_time: "11:00:00"}
-])
+@provider1 = Provider.create!({user: User.find_by(email: "provider1@example.com"), speciality: "Physical Health"})
+@provider2 = Provider.create!({user: User.find_by(email: "provider2@example.com"), speciality: "Mental Health"})
+@provider3 = Provider.create!({user: User.find_by(email: "provider3@example.com"), speciality: "General Health"})
+@member1 = Member.create!({user: User.find_by(email: "member1@example.com")})
+@member2 = Member.create!({user: User.find_by(email: "member2@example.com")})
+@member3 = Member.create!({user: User.find_by(email: "member3@example.com")})
+@consultation1 = Consultation.create!({provider: @provider1, member: @member1, appointment_date: Date.parse("11/11/2023"), start_time: "9:00:00"})
+@consultation2 = Consultation.create!({provider: @provider2, member: @member2, appointment_date: Date.parse("12/12/2023"), start_time: "10:00:00"})
+@consultation3 = Consultation.create!({provider: @provider3, member: @member3, appointment_date: Date.parse("11/11/2023"), start_time: "11:00:00"})
 
 ProviderAvailability.create([
-  {id: 1, provider: Provider.find(1), day_of_week: "Monday", shift_start_time: "9:00:00", shift_end_time: "17:00:00"},
-  {id: 2, provider: Provider.find(2), day_of_week: "Monday", shift_start_time: "9:00:00", shift_end_time: "17:00:00"},
-  {id: 3, provider: Provider.find(3), day_of_week: "Monday", shift_start_time: "9:00:00", shift_end_time: "17:00:00"}
+  {provider: @provider1, day_of_week: "Monday", shift_start_time: "9:00:00", shift_end_time: "17:00:00"},
+  {provider: @provider2, day_of_week: "Monday", shift_start_time: "9:00:00", shift_end_time: "17:00:00"},
+  {provider: @provider3, day_of_week: "Monday", shift_start_time: "9:00:00", shift_end_time: "17:00:00"}
 ])
 
-Member.find(1).update!({upcoming_consultation: Consultation.find(1)})
-Member.find(2).update!({upcoming_consultation: Consultation.find(2)})
-Member.find(3).update!({past_consultation_ids: [3]})
+@member1.update!({upcoming_consultation: @consultation1})
+@member2.update!({upcoming_consultation: @consultation2})
+@member3.update!({past_consultation_ids: [@consultation3.id]})

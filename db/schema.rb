@@ -74,7 +74,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_23_155746) do
 
   add_foreign_key "consultations", "members", on_delete: :cascade
   add_foreign_key "consultations", "providers", on_delete: :cascade
-  add_foreign_key "members", "consultations"
+  add_foreign_key "members", "consultations", on_delete: :cascade
   add_foreign_key "members", "users", on_delete: :cascade
   add_foreign_key "messages", "consultations"
   add_foreign_key "provider_availabilities", "providers"
