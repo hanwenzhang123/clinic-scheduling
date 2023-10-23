@@ -1,10 +1,10 @@
 import { configureStore } from '@reduxjs/toolkit';
-import consultationReducer from "./features/consultationSlice";
+import consultationsReducer from "./features/consultationsSlice";
 import greetingsReducer from "./features/greetingsSlice";
 
 const store = configureStore({
   reducer: {
-    consultations: consultationReducer,
+    consultations: consultationsReducer,
     greetings: greetingsReducer,
   },
 });
