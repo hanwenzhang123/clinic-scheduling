@@ -34,6 +34,15 @@ class Api::V1::ConsultationsController < ApplicationController
     end
   end
 
+  def destroy
+    @consultation = Consultation.find(params[:id])
+    if @consultation.destroy
+      render json: { message: 'Consultation was successfully deleted.' }
+    else
+      render json: { error: 'Failed to delete the consultation.' }
+    end
+  end
+
   private
 
   def consultation_params

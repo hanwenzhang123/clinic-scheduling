@@ -137,6 +137,7 @@ GET - /api/v1/members/{id}
 GET - /api/v1/consultations
 GET -/api/v1/consultations/{id}
 POST - /api/v1/consultations
+DELETE -/api/v1/consultations/{id}
 ```
 
 ## Other Commands
