@@ -65,8 +65,8 @@ source ~/.zshrc
 ##### Member
 - member_id: PK
 - user_id: FK
-- upcoming_consultation
-- past_consultations
+- consultation_id: FK
+- past_consultation_ids
 
 ##### Consultation
 - consultation_id: PK
@@ -130,18 +130,32 @@ bin/rails generate controller Errors not_found
 
 ## APIs
 ```sh
-/api/v1/providers
-/api/v1/providers/{id}
-/api/v1/members
-/api/v1/members/{id}
-/api/v1/consultations
-/api/v1/consultations/{id}
-/api/v1/consultations/create
+GET - /api/v1/providers
+GET - /api/v1/providers/{id}
+GET - /api/v1/members
+GET - /api/v1/members/{id}
+GET - /api/v1/consultations
+GET -/api/v1/consultations/{id}
+POST - /api/v1/consultations
 ```
 
-## PostgreSQL Related Commands
+## Other Commands
+#### Rails Console
+```sh
+Member.find(1).upcoming_consultation
+```
+
+#### PostgreSQL
 ```sh
 psql -l   # list of datbase and owner of the database
 psql -h localhost -U hanwenzhang -d postgres -c "DROP DATABASE clinic_scheduling"
 psql -U hanwenzhang clinic_scheduling_system
+```
+
+#### Swagger Related Commands
+```
+bundle exec rails g rswag:install
+bundle exec rails g rswag:api:install
+bundle exec rails g rswag:ui:install
+bundle exec rails generate rspec:swagger API::ConsultationController
 ```
