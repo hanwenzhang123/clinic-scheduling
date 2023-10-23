@@ -13,7 +13,7 @@ export const fetchConsultations = createAsyncThunk(
       }
 
       const data = await response.json();
-      return data.message;
+      return data;
     } catch (error) {
       throw new Error("Error fetching data from the API");
     }
