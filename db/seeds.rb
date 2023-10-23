@@ -12,9 +12,9 @@ Message.create(text: "Hi there, this is my app !!!")
 Message.create(text: "Enjoy your visit !!!")
 
 ProviderAvailability.destroy_all
-Consultation.destroy_all
-Member.destroy_all
 Provider.destroy_all
+Member.destroy_all
+Consultation.destroy_all
 User.destroy_all
 
 User.create!([
@@ -33,11 +33,10 @@ Provider.create!([
   {id: 3, user: User.find(4), speciality: "General Health"}
 ])
 
-
 Member.create!([
-  {id: 1, user: User.find(5), upcoming_consultation_id: 1, past_consultation_ids: []}, 
-  {id: 2, user: User.find(6), upcoming_consultation_id: 2, past_consultation_ids: []}, 
-  {id: 3, user: User.find(7), upcoming_consultation_id: nil, past_consultation_ids: [3]}
+  {id: 1, user: User.find(5)}, 
+  {id: 2, user: User.find(6)}, 
+  {id: 3, user: User.find(7)}
 ])
 
 Consultation.create!([
@@ -51,3 +50,7 @@ ProviderAvailability.create([
   {id: 2, provider: Provider.find(2), day_of_week: "Monday", shift_start_time: "9:00:00", shift_end_time: "17:00:00"},
   {id: 3, provider: Provider.find(3), day_of_week: "Monday", shift_start_time: "9:00:00", shift_end_time: "17:00:00"}
 ])
+
+Member.find(1).update!({upcoming_consultation: Consultation.find(1)})
+Member.find(2).update!({upcoming_consultation: Consultation.find(2)})
+Member.find(3).update!({past_consultation_ids: [3]})

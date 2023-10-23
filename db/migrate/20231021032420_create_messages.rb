@@ -1,9 +1,11 @@
 class CreateMessages < ActiveRecord::Migration[7.0]
   def change
-    create_table :messages do |t|
-      t.string :text, null: false
-      t.references :consultation, foreign_key: true, optional: true
+    drop_table :messages, if_exists: true
 
+    create_table :messages do |t|
+      t.references :consultation, index: true, optional: true, foreign_key: true
+      t.string :text, null: false
+      
       t.timestamps
     end
   end

@@ -18,4 +18,5 @@ class Consultation < ApplicationRecord
     self.end_time = end_time.strftime("%H:%M:%S")
     self.status = 'booked'
   end
+
 end

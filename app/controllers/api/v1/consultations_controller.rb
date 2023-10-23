@@ -1,4 +1,8 @@
 class Api::V1::ConsultationsController < ApplicationController
+  def new
+    @mconsultation = Consultation.new
+  end
+
   def index
     @data = Consultation.all
     render json: @data
@@ -10,9 +14,18 @@ class Api::V1::ConsultationsController < ApplicationController
   end
 
   def create
-    @consultation = Consultation.new(consultation_params)
+    @member = Member.find(consultation_params[:member_id])
+    @provider = Provider.find(consultation_params[:provider_id])
+
+    @consultation = Consultation.new(
+      member: @member,
+      provider: @provider,
+      appointment_date: consultation_params[:appointment_date],
+      start_time: consultation_params[:start_time]
+    )
+    
     if @consultation.save
-      redirect_to @consultation, notice: 'Consultation was successfully created'
+      render json: { notice: 'Consultation was successfully created' }
     else
       render status: :unprocessable_entity do |format|
         format.html { render 'errors/422' }
@@ -24,6 +37,6 @@ class Api::V1::ConsultationsController < ApplicationController
   private
 
   def consultation_params
-    params.require(:consultation).permit(:member, :provider, :appointment_date, :start_time)
+    params.require(:consultation).permit(:member_id, :provider_id, :appointment_date, :start_time)
   end
 end

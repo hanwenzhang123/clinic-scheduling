@@ -3,8 +3,8 @@ class CreateProviders < ActiveRecord::Migration[7.0]
     drop_table :providers, if_exists: true
     
     create_table :providers do |t|
+      t.references :user, index: true, null: false, foreign_key: { to_table: :users, on_delete: :cascade }
       t.string :speciality
-      t.references :user, null: false, foreign_key: true
       
       t.timestamps
     end
