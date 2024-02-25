@@ -34,6 +34,7 @@ yarn start
 ```
 
 ### Database Related Setup
+https://www.devart.com/dbforge/postgresql/how-to-install-postgresql-on-macos/
 ```sh
 psql -h /tmp/ clinic_scheduling_system
 clinic_scheduling_system=# CREATE ROLE admin LOGIN PASSWORD 'admin';
