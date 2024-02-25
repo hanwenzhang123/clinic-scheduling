@@ -35,6 +35,15 @@ yarn start
 
 ### Database Related Setup
 https://www.devart.com/dbforge/postgresql/how-to-install-postgresql-on-macos/
+```
+brew install postgresql
+brew services start postgresql
+psql postgres
+CREATE ROLE admin WITH SUPERUSER CREATEDB CREATEROLE LOGIN ENCRYPTED PASSWORD 'password';
+CREATE DATABASE clinic_scheduling_system;
+\du
+\q
+```
 ```sh
 psql -h /tmp/ clinic_scheduling_system
 clinic_scheduling_system=# CREATE ROLE admin LOGIN PASSWORD 'admin';
