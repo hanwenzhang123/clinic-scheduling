@@ -62,7 +62,7 @@ orange = Product.create(name: 'Orange', price: 1.25)
 book = Product.create(name: 'Book', price: 2.00)
 laptop = Product.create(name: 'Laptop', price: 200.00)
 counseling = Product.create(name: 'Counseling', price: 100.00)
-treatment = Product.create(name: 'Treatment', price: 1.25)
+treatment = Product.create(name: 'Treatment', price: 150.00)
 
 fruit_bundle = Bundle.create(name: 'Fruit Bundle')
 fruit_bundle.products << apple

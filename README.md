@@ -12,7 +12,8 @@ A simple scheduling system for a clinic has a list of dates that a doctor is ava
 # Install Dependencies
 bundle install
 
-# Databse Related Setup
+bundle exec rails db:rollback
+bundle exec rails db:reset
 bundle exec rails db:create
 bundle exec rails db:migrate
 bundle exec rails db:seed
@@ -49,6 +50,13 @@ psql -h /tmp/ clinic_scheduling_system
 clinic_scheduling_system=# CREATE ROLE admin LOGIN PASSWORD 'admin';
 ```
 
+#### PostgreSQL
+```sh
+psql -l   # list of datbase and owner of the database
+psql -h localhost -U hanwenzhang -d postgres -c "DROP DATABASE clinic_scheduling"
+psql -U hanwenzhang clinic_scheduling_system
+```
+
 ### Ruby Version 3.2.2
 #### Download `ruby@3.2` view Homebrew
 ```sh
@@ -57,6 +65,17 @@ brew link --overwrite ruby@3.2 --force
 echo 'export PATH="/opt/homebrew/opt/ruby@3.1/bin:$PATH"' >> ~/.zshrc
 source ~/.zshrc
 ```
+
+#### Swagger Related Commands
+```
+bundle exec rails g rswag:install
+bundle exec rails g rswag:api:install
+bundle exec rails g rswag:ui:install
+bundle exec rails generate rspec:swagger API::ConsultationController
+```
+
+
+# Scheduling
 
 ## Database
 ##### User
@@ -97,6 +116,7 @@ source ~/.zshrc
 - message_id: PK
 - consultation_id: FK
 
+
 ## APIs
 ```sh
 GET - /api/v1/providers
@@ -115,13 +135,6 @@ POST /api/v1/consultations/:id/consultation_completed
 
 #### Model
 ##### Create Data Model
-```sh
-bundle exec rails db:rollback
-bundle exec rails db:create
-bundle exec rails db:reset
-bundle exec rails db:migrate
-bundle exec rails db:seed
-```
 ```sh
 bundle exec rails generate migration CreateProviders
 bundle exec rails generate migration CreateMembers
@@ -163,17 +176,43 @@ http://127.0.0.1:3000/
 Member.find(1).upcoming_consultation
 ```
 
-#### PostgreSQL
+
+# Shopping Cart
+
+##### Bundle
+- bundle_id: PK
+- name
+
+## APIs
 ```sh
-psql -l   # list of datbase and owner of the database
-psql -h localhost -U hanwenzhang -d postgres -c "DROP DATABASE clinic_scheduling"
-psql -U hanwenzhang clinic_scheduling_system
+POST - /api/v2/add_product_to_cart/:product_id
+POST - /api/v2/add_bundle_to_cart/:bundle_id
+POST - /api/v2/checkout/:bundle_id
 ```
 
-#### Swagger Related Commands
+## MVC
+
+#### Model
+##### Create Data Model
+```sh
+rails generate model Product name:string price:decimal
+rails generate model Bundle name:string
+rails generate model CartItem product:references bundle:references
+rails generate model Checkout
 ```
-bundle exec rails g rswag:install
-bundle exec rails g rswag:api:install
-bundle exec rails g rswag:ui:install
-bundle exec rails generate rspec:swagger API::ConsultationController
+
+#### Controller
+```sh
+rails generate controller ShoppingCart add_to_cart
+```
+
+#### View
+```sh
+http://127.0.0.1:3000/
+```
+
+## Other Commands
+#### Rails Console
+```sh
+
 ```

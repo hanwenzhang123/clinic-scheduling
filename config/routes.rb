@@ -33,9 +33,9 @@ Rails.application.routes.draw do
       resources :cart_items
       resources :checkouts
 
-      post '/shopping_cart/add_to_cart/:product_id', to: 'shopping_cart#add_to_cart'
+      post '/shopping_cart/add_product_to_cart/:product_id', to: 'shopping_cart#add_to_cart'
       post '/shopping_cart/add_bundle_to_cart/:bundle_id', to: 'shopping_cart#add_to_cart'
-      post '/shopping_cart/checkout/:bundle_id', to: 'shopping_cart#checkout'
+      post '/shopping_cart/checkout', to: 'shopping_cart#checkout'
     end
   end
 
