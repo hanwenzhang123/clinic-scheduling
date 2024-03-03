@@ -51,9 +51,9 @@ ProviderAvailability.create([
 
 
 # V2 - Shopping Cart
-Product.destroy_all
-Bundle.destroy_all
 CartItem.destroy_all
+Bundle.destroy_all
+Product.destroy_all
 Checkout.destroy_all
 
 apple = Product.create(name: 'Apple', price: 1.00)
@@ -72,6 +72,8 @@ fruit_bundle.products << orange
 service_bundle = Bundle.create(name: 'Service Bundle')
 service_bundle.products << counseling
 service_bundle.products << treatment
+
+# shopping_cart1 = ShoppingCart.create(user: @member1)
 
 # System Message
 GREEN = "\e[32m"

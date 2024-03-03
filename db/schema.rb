@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_03_03_025322) do
+ActiveRecord::Schema[7.0].define(version: 2024_03_03_080219) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -18,15 +18,19 @@ ActiveRecord::Schema[7.0].define(version: 2024_03_03_025322) do
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.decimal "discount"
   end
 
   create_table "cart_items", force: :cascade do |t|
-    t.bigint "product_id", null: false
-    t.bigint "bundle_id", null: false
+    t.integer "product_id"
+    t.integer "bundle_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "quantity", default: 1
+    t.bigint "shopping_cart_id"
     t.index ["bundle_id"], name: "index_cart_items_on_bundle_id"
     t.index ["product_id"], name: "index_cart_items_on_product_id"
+    t.index ["shopping_cart_id"], name: "index_cart_items_on_shopping_cart_id"
   end
 
   create_table "checkouts", force: :cascade do |t|
@@ -90,6 +94,13 @@ ActiveRecord::Schema[7.0].define(version: 2024_03_03_025322) do
     t.index ["user_id"], name: "index_providers_on_user_id"
   end
 
+  create_table "shopping_carts", force: :cascade do |t|
+    t.bigint "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_shopping_carts_on_user_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "first_name"
     t.string "last_name"
@@ -101,6 +112,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_03_03_025322) do
 
   add_foreign_key "cart_items", "bundles"
   add_foreign_key "cart_items", "products"
+  add_foreign_key "cart_items", "shopping_carts"
   add_foreign_key "consultations", "members", on_delete: :cascade
   add_foreign_key "consultations", "providers", on_delete: :cascade
   add_foreign_key "members", "consultations", on_delete: :cascade
@@ -108,4 +120,5 @@ ActiveRecord::Schema[7.0].define(version: 2024_03_03_025322) do
   add_foreign_key "messages", "consultations"
   add_foreign_key "provider_availabilities", "providers"
   add_foreign_key "providers", "users", on_delete: :cascade
+  add_foreign_key "shopping_carts", "users"
 end
