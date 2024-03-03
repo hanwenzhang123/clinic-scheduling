@@ -11,6 +11,8 @@ Message.create(text: "Hey !!!")
 Message.create(text: "Hi there, this is my app !!!")
 Message.create(text: "Enjoy your visit !!!")
 
+
+# V1 - Clinical Scheduling
 ProviderAvailability.destroy_all
 Provider.destroy_all
 Member.destroy_all
@@ -46,3 +48,32 @@ ProviderAvailability.create([
 @member1.update!({upcoming_consultation: @consultation1})
 @member2.update!({upcoming_consultation: @consultation2})
 @member3.update!({past_consultation_ids: [@consultation3.id]})
+
+
+# V2 - Shopping Cart
+Product.destroy_all
+Bundle.destroy_all
+CartItem.destroy_all
+Checkout.destroy_all
+
+apple = Product.create(name: 'Apple', price: 1.00)
+banana = Product.create(name: 'Banana', price: 0.75)
+orange = Product.create(name: 'Orange', price: 1.25)
+book = Product.create(name: 'Book', price: 2.00)
+laptop = Product.create(name: 'Laptop', price: 200.00)
+counseling = Product.create(name: 'Counseling', price: 100.00)
+treatment = Product.create(name: 'Treatment', price: 1.25)
+
+fruit_bundle = Bundle.create(name: 'Fruit Bundle')
+fruit_bundle.products << apple
+fruit_bundle.products << banana
+fruit_bundle.products << orange
+
+service_bundle = Bundle.create(name: 'Service Bundle')
+service_bundle.products << counseling
+service_bundle.products << treatment
+
+# System Message
+GREEN = "\e[32m"
+RESET_COLOR = "\e[0m"
+puts "#{GREEN}Seed data created successfully.#{RESET_COLOR}"
