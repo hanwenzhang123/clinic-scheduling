@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  get 'shopping_cart/add_to_cart'
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Defines the root path route ("/")
@@ -22,6 +23,19 @@ Rails.application.routes.draw do
           post 'consultation_completed'
         end
       end
+    end
+  end
+
+  namespace :api do
+    namespace :v2 do
+      resources :products
+      resources :bundles
+      resources :cart_items
+      resources :checkouts
+
+      post '/shopping_cart/add_to_cart/:product_id', to: 'shopping_cart#add_to_cart'
+      post '/shopping_cart/add_bundle_to_cart/:bundle_id', to: 'shopping_cart#add_to_cart'
+      post '/shopping_cart/checkout/:bundle_id', to: 'shopping_cart#checkout'
     end
   end
 
