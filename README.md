@@ -154,6 +154,7 @@ bin/rails generate controller Errors not_found
 
 #### View
 ```sh
+http://127.0.0.1:3000/
 ```
 
 ## Other Commands
