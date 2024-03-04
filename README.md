@@ -187,7 +187,7 @@ Member.find(1).upcoming_consultation
 ```sh
 POST - /api/v2/add_product_to_cart/:product_id
 POST - /api/v2/add_bundle_to_cart/:bundle_id
-POST - /api/v2/checkout/:bundle_id
+POST - /api/v2/checkout
 ```
 
 ## MVC
@@ -199,6 +199,7 @@ rails generate model Product name:string price:decimal
 rails generate model Bundle name:string
 rails generate model CartItem product:references bundle:references
 rails generate model Checkout
+rails generate migration AddDiscountToBundles discount:decimal
 ```
 
 #### Controller
@@ -214,5 +215,9 @@ http://127.0.0.1:3000/
 ## Other Commands
 #### Rails Console
 ```sh
+load 'app/controllers/api/v2/shopping_cart_controller.rb'
+ShoppingCartController.new.add_bundle_to_cart(Bundle.first, User.first)
+CartItem.columns.map(&:name)
 CartItem.update_all(quantity: 1)
+User.first.shopping_cart.cart_itens
 ```

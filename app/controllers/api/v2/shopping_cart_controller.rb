@@ -1,22 +1,32 @@
 class ShoppingCartController < ApplicationController
-  def add_to_cart
-    product = Product.find(params[:product_id])
-    bundle = Bundle.find(params[:bundle_id])
-    
-    if bundle
-      add_bundle_to_cart(bundle)
-    elsif product
-      add_product_to_cart(product)
-    else
-      render json: { error: 'Invalid request. Specify either product_id or bundle_id.' }, status: :bad_request
-    end
+  before_action :authenticate_user!
 
-    render json: { message: 'Item added to cart successfully' }
+  def get_current_user
+    @current_user ||= User.first
+  end
+
+  def add_to_cart
+    user = @current_user
+    item = find_item(params[:product_id], params[:bundle_id])
+
+    if item
+      add_item_to_cart(item, user)
+      render json: { message: "#{item.class.name} added to cart successfully" }
+    else
+      render json: { error: 'Item not found. Specify either product_id or bundle_id.' }, status: :not_found
+    end
+  end
+
+  def add_bundle_to_cart(bundle, user)
+    add_item_to_cart(bundle, user)
+  end
+
+  def add_product_to_cart(product, user)
+    add_item_to_cart(product, user)
   end
 
   def checkout
-    bundle_id = params[:bundle_id]
-    bundle = Bundle.find_by(id: bundle_id)
+    bundle = Bundle.find_by(id: params[:bundle_id])
     checkout = Checkout.create(bundle: bundle)
 
     render json: { receipt: checkout.generate_receipt }
@@ -24,26 +34,18 @@ class ShoppingCartController < ApplicationController
 
   private
 
-  def add_product_to_cart(product)
-    if product
-      add_item_to_cart(product)
-      render json: { message: 'Product added to cart successfully' }
-    else
-      render json: { error: 'Product not found' }, status: :not_found
+  def authenticate_user
+    unless user_signed_in?
+      sign_in(User.first)
     end
   end
 
-  def add_bundle_to_cart(bundle)
-    if bundle
-      add_item_to_cart(bundle)
-      render json: { message: 'Bundle added to cart successfully' }
-    else
-      render json: { error: 'Bundle not found' }, status: :not_found
-    end
+  def find_item(product_id, bundle_id)
+    product_id ? Product.find_by(id: product_id) : Bundle.find_by(id: bundle_id)
   end
 
-  def add_item_to_cart(item)
-    shopping_cart = ShoppingCart.find_or_create_by(user_id: current_user.id)
+  def add_item_to_cart(item, user)
+    shopping_cart = ShoppingCart.find_or_create_by(user_id: user.id)
     shopping_cart.add_item(item)
   end
 end
