@@ -11,6 +11,7 @@ class ShoppingCartController < ApplicationController
 
     if item
       add_item_to_cart(item, user)
+      
       render json: { message: "#{item.class.name} added to cart successfully" }
     else
       render json: { error: 'Item not found. Specify either product_id or bundle_id.' }, status: :not_found
@@ -26,8 +27,8 @@ class ShoppingCartController < ApplicationController
   end
 
   def checkout
-    bundle = Bundle.find_by(id: params[:bundle_id])
-    checkout = Checkout.create(bundle: bundle)
+    shopping_cart = ShoppingCart.find_or_create_by(user: @current_user)
+    checkout = Checkout.create(shopping_cart: shopping_cart)
 
     render json: { receipt: checkout.generate_receipt }
   end

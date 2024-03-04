@@ -200,6 +200,7 @@ rails generate model Bundle name:string
 rails generate model CartItem product:references bundle:references
 rails generate model Checkout
 rails generate migration AddDiscountToBundles discount:decimal
+rails generate migration AddShoppingCartReferenceAndTotalPriceToCheckouts shopping_cart:references total_price:decimal
 ```
 
 #### Controller
@@ -217,7 +218,12 @@ http://127.0.0.1:3000/
 ```sh
 load 'app/controllers/api/v2/shopping_cart_controller.rb'
 ShoppingCartController.new.add_bundle_to_cart(Bundle.first, User.first)
+User.first.shopping_cart.cart_itens
+
+checkout = Checkout.find_or_create_by(shopping_cart: ShoppingCart.first)
+checkout.shopping_cart.cart_items.includes(:product, :bundle)
+checkout.generate_receipt
+
 CartItem.columns.map(&:name)
 CartItem.update_all(quantity: 1)
-User.first.shopping_cart.cart_itens
 ```

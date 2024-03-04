@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_03_03_080219) do
+ActiveRecord::Schema[7.0].define(version: 2024_03_04_053527) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -36,6 +36,9 @@ ActiveRecord::Schema[7.0].define(version: 2024_03_03_080219) do
   create_table "checkouts", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "shopping_cart_id", null: false
+    t.decimal "total_price"
+    t.index ["shopping_cart_id"], name: "index_checkouts_on_shopping_cart_id"
   end
 
   create_table "consultations", force: :cascade do |t|
@@ -113,6 +116,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_03_03_080219) do
   add_foreign_key "cart_items", "bundles"
   add_foreign_key "cart_items", "products"
   add_foreign_key "cart_items", "shopping_carts"
+  add_foreign_key "checkouts", "shopping_carts"
   add_foreign_key "consultations", "members", on_delete: :cascade
   add_foreign_key "consultations", "providers", on_delete: :cascade
   add_foreign_key "members", "consultations", on_delete: :cascade
