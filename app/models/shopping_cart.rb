@@ -4,37 +4,29 @@ class ShoppingCart < ApplicationRecord
 
   def add_item(item)
     if item.is_a?(Product)
-      existing_cart_item = CartItem.find_by(product_id: item.id, shopping_cart_id: self.id)
-      if existing_cart_item
-        existing_cart_item.update(quantity: existing_cart_item.quantity + 1)
-      else
-        CartItem.create(product: item, quantity: 1, shopping_cart_id: self.id)
-      end
+      add_product_to_cart(item)
     elsif item.is_a?(Bundle)
-      item.products.each do |product|
-        existing_cart_item = CartItem.find_by(product_id: product.id, shopping_cart_id: self.id)
-        if existing_cart_item
-        existing_cart_item.update(quantity: existing_cart_item.quantity + 1)
-        else
-          CartItem.create(product: product, quantity: 1, shopping_cart_id: self.id)
-        end
-      end
+      add_bundle_to_cart(item)
     end
   end
 
   private
 
-  def find_existing_cart_item(item)
-    product_ids = item.is_a?(Bundle) ? item.products.pluck(:id) : [item.id]
-    product_ids.each do |product_id|
-      CartItem.find_by(product_id: product_id, shopping_cart_id: self.id)
-    end
+  def add_product_to_cart(product)
+    update_or_create_cart_item(product)
   end
 
-  def create_cart_items(item)
-    product_ids = item.is_a?(Bundle) ? item.products.pluck(:id) : [item.id]
-    product_ids.each do |product_id|
-      CartItem.create(product_id: product_id, quantity: 1, shopping_cart_id: self.id)
+  def add_bundle_to_cart(bundle)
+    bundle.products.each { |product| update_or_create_cart_item(product, bundle.id) }
+  end
+
+  def update_or_create_cart_item(item, bundle_id = nil)
+    existing_cart_item = CartItem.find_by(product_id: item.id, shopping_cart_id: self.id, bundle_id: bundle_id)
+
+    if existing_cart_item
+      existing_cart_item.update(quantity: existing_cart_item.quantity + 1)
+    else
+      CartItem.create(product: item, quantity: 1, shopping_cart_id: self.id, bundle_id: bundle_id)
     end
   end
 
